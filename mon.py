@@ -16,12 +16,14 @@ def allBoro(boro):
 '''
 allBoro('Queens')
 ''' 
+
 def allZip(zipe):
     ret = rests.find({'address.zipcode': zipe })
     printstuff(ret)
 '''
 allZip('11373')
 '''
+
 def zg(zipe, grade):
     #ret = rests.find( {'address.zipcode': zipe , 'grades.grade':grade} )
     ret = rests.find({ '$and': [ {'address.zipcode': zipe},{'grades.grade':grade} ] })
@@ -34,7 +36,12 @@ def zs(zipe, score):
     #ret = rests.find( {'address.zipcode': zipe , 'grades.grade':grade} )
     ret = rests.find({ '$and': [ {'address.zipcode': zipe}, {'grades.score': { '$lt' : score } } ] } )
     printstuff(ret)
-
+'''
 zs('11378',12)
+'''
 
+def bgs(boro, grade, score):
+    ret = rests.find({ '$and': [ {'borough': boro }, {'grades.grade':grade}, {'grades.score': { '$lt' : score } } ] } )
+    printstuff(ret)
+bgs("Queens","A",30)
 
