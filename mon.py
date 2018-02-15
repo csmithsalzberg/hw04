@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+import json
 
 def printstuff(ret):
     for re in ret:
@@ -43,5 +44,18 @@ zs('11378',12)
 def bgs(boro, grade, score):
     ret = rests.find({ '$and': [ {'borough': boro }, {'grades.grade':grade}, {'grades.score': { '$lt' : score } } ] } )
     printstuff(ret)
-bgs("Queens","A",30)
+    
+#bgs("Queens","A",30)
 
+
+with open('comets.json') as jfile:
+    data = json.load(jfile)
+    min=data[0]['year'][0:data[0]['year'].find('-')]
+    print min
+    for entry in data:
+        if entry['year'][0:data[0]['year'].find('-')] < min:
+            min = entry['year'][0:data[0]['year'].find('-')]
+        print entry['year'][0:data[0]['year'].find('-')]
+    print min
+    #print data
+#db.exceptForTheMongols.insert({})
