@@ -12,10 +12,10 @@ rests = coll.restaurants
 
 def allBoro(boro):
     ret = rests.find({'borough': boro })
-    return ret
+    printstuff(ret)
 '''
 allBoro('Queens')
-'''    
+''' 
 def allZip(zipe):
     ret = rests.find({'address.zipcode': zipe })
     printstuff(ret)
@@ -23,10 +23,12 @@ def allZip(zipe):
 allZip('11373')
 '''
 def zg(zipe, grade):
+    #ret = rests.find( {'address.zipcode': zipe , 'grades.grade':grade} )
     ret = rests.find({ '$and': [ {'address.zipcode': zipe},{'grades.grade':grade} ] })
+
     printstuff(ret)
 
-zg(11373,'A')
+zg('11373','A')
 
 
 
