@@ -25,13 +25,16 @@ allZip('11373')
 def zg(zipe, grade):
     #ret = rests.find( {'address.zipcode': zipe , 'grades.grade':grade} )
     ret = rests.find({ '$and': [ {'address.zipcode': zipe},{'grades.grade':grade} ] })
+    printstuff(ret)
+'''
+zg('11373','A')
+'''
 
+def zs(zipe, score):
+    #ret = rests.find( {'address.zipcode': zipe , 'grades.grade':grade} )
+    ret = rests.find({ '$and': [ {'address.zipcode': zipe}, {'grades.score': { '$lt' : score } } ] } )
     printstuff(ret)
 
-zg('11373','A')
-
-
-
-
+zs('11378',12)
 
 
