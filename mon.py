@@ -1,5 +1,16 @@
+'''
+We used NASA's Earth Meteorite Landings Dataset, a list of 1000 meteorites that have landed on Earth. It has info about a meteorite's name, class, geolocation, mass, and when it fell. 
+
+To import the dataset into a Mongo db: 
+First we used urllib2 and json to get the data and turn it into a dictionary. Then, we used the function insert_many to insert the dictionary into the Mongo db.
+
+Here is the dataset:
+https://data.nasa.gov/resource/y77d-th95.json
+
+'''
+
 from pymongo import MongoClient
-import json
+import json, urllib2
 
 def printstuff(ret):
     for re in ret:
@@ -47,7 +58,10 @@ def bgs(boro, grade, score):
     
 #bgs("Queens","A",30)
 
+nas = c.exceptForTheMongols
+nasa = nas.nasa
 
+'''
 with open('comets.json') as jfile:
     data = json.load(jfile)
     min=data[0]['year'][0:data[0]['year'].find('-')]
@@ -59,3 +73,25 @@ with open('comets.json') as jfile:
     print min
     #print data
 #db.exceptForTheMongols.insert({})
+'''
+
+com = urllib2.urlopen("https://data.nasa.gov/resource/y77d-th95.json")
+come = com.read()
+comet = json.loads(come)
+#for stuff in comet:
+    #print stuff
+    
+def insert():
+    nasa.insert_many(comet)
+insert()
+
+def findName(name):
+    printstuff(nasa.find({"name":name}))
+
+findName("Aachen")
+
+#def findYear(year):
+    #it doesnt work lol but it works in mongo shell?
+    
+    #printstuff(nasa.find({"year": {$regex: year})
+#findYear("1775")
