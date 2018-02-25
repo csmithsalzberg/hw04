@@ -1,4 +1,12 @@
 '''
+Caleb Smith-Salzberg and Kelly Wang
+Team exceptForTheMongols
+SoftDev2 pd7
+K #05 -- Import/Export Bank
+2018-02-25
+'''
+
+'''
 We used NASA's Earth Meteorite Landings Dataset, a list of 1000 meteorites that have landed on Earth. It has info about a meteorite's name, class, geolocation, mass, and when it fell. 
 
 To import the dataset into a Mongo db: 
@@ -15,6 +23,8 @@ import json, urllib2
 def printstuff(ret):
     for re in ret:
         print re
+
+#BEGINNING OF PREVIOUS HW
 
 
 c = MongoClient('lisa.stuy.edu')
@@ -58,10 +68,16 @@ def bgs(boro, grade, score):
     
 #bgs("Queens","A",30)
 
-nas = c.exceptForTheMongols
-nasa = nas.nasa
+
+
+#END OF PREVIOUS HW
+
+
 
 '''
+
+#random stuff for fun
+
 with open('comets.json') as jfile:
     data = json.load(jfile)
     min=data[0]['year'][0:data[0]['year'].find('-')]
@@ -75,23 +91,50 @@ with open('comets.json') as jfile:
 #db.exceptForTheMongols.insert({})
 '''
 
+
+nas = c.exceptForTheMongols
+nasa = nas.nasa
+
 com = urllib2.urlopen("https://data.nasa.gov/resource/y77d-th95.json")
 come = com.read()
-comet = json.loads(come)
+comet = json.loads(come) #load into python dictionary
 #for stuff in comet:
     #print stuff
+for meteor in comet:
+    if "mass" in meteor:
+        meteor["mass"] = float(meteor["mass"]) #change the mass field to an int for easier use later to compare values
     
 def insert():
     nasa.insert_many(comet)
-insert()
+insert() #add the data to the db
 
 def findName(name):
     printstuff(nasa.find({"name":name}))
-
+'''
 findName("Aachen")
+'''
 
-#def findYear(year):
-    #it doesnt work lol but it works in mongo shell?
-    
-    #printstuff(nasa.find({"year": {$regex: year})
-#findYear("1775")
+def findId(id):
+    printstuff(nasa.find({"id":id}))
+'''
+findId("4984")
+'''
+
+def findYear(year):
+    printstuff(nasa.find({"year": {"$regex": year}}))
+'''
+findYear("1775")
+'''
+
+def my(mass, year):
+    printstuff(nasa.find( {"$and": [ {"mass": mass}, {"year": {"$regex": year}}]}))
+'''
+my(4000,"1890")
+'''
+
+def massRange(minM,maxM):
+    printstuff(nasa.find( {"$and" : [ {"mass": {"$lte": maxM} }, {"mass": {"$gte": minM} } ] } ))
+'''    
+massRange(4000,4500)
+'''
+
